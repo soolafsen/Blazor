@@ -3,6 +3,7 @@
 
 using System;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace Microsoft.AspNetCore.Blazor.Components
 {
@@ -44,7 +45,25 @@ namespace Microsoft.AspNetCore.Blazor.Components
         /// <summary>
         /// Not intended to be used directly.
         /// </summary>
+        public static MulticastDelegate GetEventHandlerValue<T>(Func<Task> value)
+            where T : UIEventArgs
+        {
+            return value;
+        }
+
+        /// <summary>
+        /// Not intended to be used directly.
+        /// </summary>
         public static MulticastDelegate GetEventHandlerValue<T>(Action<T> value)
+            where T : UIEventArgs
+        {
+            return value;
+        }
+
+        /// <summary>
+        /// Not intended to be used directly.
+        /// </summary>
+        public static MulticastDelegate GetEventHandlerValue<T>(Func<T, Task> value)
             where T : UIEventArgs
         {
             return value;

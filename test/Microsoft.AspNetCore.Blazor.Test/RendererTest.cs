@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Blazor.Components;
 using Microsoft.AspNetCore.Blazor.Rendering;
 using Microsoft.AspNetCore.Blazor.RenderTree;
@@ -1014,8 +1015,10 @@ namespace Microsoft.AspNetCore.Blazor.Test
                 builder.AddContent(6, $"Render count: {++renderCount}");
             }
 
-            public void HandleEvent(UIEventHandler handler, UIEventArgs args)
-                => handler(args);
+            public Task HandleEvent(Func<UIEventArgs, Task> handler, UIEventArgs args)
+            {
+                return handler(args);
+            }
         }
 
         private class ConditionalParentComponent<T> : AutoRenderComponent where T : IComponent
@@ -1075,10 +1078,11 @@ namespace Microsoft.AspNetCore.Blazor.Test
                 Render();
             }
 
-            public void HandleEvent(UIEventHandler handler, UIEventArgs args)
+            public Task HandleEvent(Func<UIEventArgs, Task> handler, UIEventArgs args)
             {
-                handler(args);
+                var task = handler(args);
                 Render();
+                return task;
             }
 
             private void Render()

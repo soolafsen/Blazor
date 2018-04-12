@@ -169,13 +169,25 @@ namespace Microsoft.AspNetCore.Blazor.Components
             Console.Error.WriteLine($"[{ex.GetType().FullName}] {ex.Message}\n{ex.StackTrace}");
         }
 
-        void IHandleEvent.HandleEvent(UIEventHandler handler, UIEventArgs args)
+        Task IHandleEvent.HandleEvent(Func<UIEventArgs, Task> handler, UIEventArgs args)
         {
-            handler(args);
+            var task = handler(args);
 
             // After each event, we synchronously re-render (unless !ShouldRender())
             // This just saves the developer the trouble of putting "StateHasChanged();"
             // at the end of every event callback.
+            StateHasChanged();
+
+            if (task.Status == TaskStatus.RanToCompletion)
+            {
+                return task;
+            }
+
+            return task.ContinueWith(OnAsyncTaskCompleted);
+        }
+
+        protected virtual void OnAsyncTaskCompleted(Task task)
+        {
             StateHasChanged();
         }
     }
