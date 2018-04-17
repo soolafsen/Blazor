@@ -18,8 +18,6 @@ Document -
             MethodDeclaration -  - protected override - void - BuildRenderTree
                 CSharpCode - 
                     IntermediateToken -  - CSharp - base.BuildRenderTree(builder);
-                HtmlContent - (29:0,29 [2] x:\dir\subdir\Test\TestComponent.cshtml)
-                    IntermediateToken - (29:0,29 [2] x:\dir\subdir\Test\TestComponent.cshtml) - Html - \n
                 TagHelper - (31:1,0 [132] x:\dir\subdir\Test\TestComponent.cshtml) - MyComponent - TagMode.SelfClosing
                     ComponentOpenExtensionNode -  - Test.MyComponent
                     ComponentAttributeExtensionNode - (63:2,17 [3] x:\dir\subdir\Test\TestComponent.cshtml) - IntProperty - IntProperty

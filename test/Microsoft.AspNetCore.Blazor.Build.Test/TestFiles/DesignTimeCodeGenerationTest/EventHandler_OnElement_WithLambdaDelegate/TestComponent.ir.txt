@@ -18,8 +18,6 @@ Document -
             MethodDeclaration -  - protected override - void - BuildRenderTree
                 CSharpCode - 
                     IntermediateToken -  - CSharp - base.BuildRenderTree(builder);
-                HtmlContent - (34:0,34 [2] x:\dir\subdir\Test\TestComponent.cshtml)
-                    IntermediateToken - (34:0,34 [2] x:\dir\subdir\Test\TestComponent.cshtml) - Html - \n
                 HtmlContent - 
                     IntermediateToken -  - Html - <input 
                 HtmlAttribute -  - =" - "
