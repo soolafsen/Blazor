@@ -11,6 +11,11 @@ namespace Microsoft.AspNetCore.Blazor.Build.Test
         internal override bool DesignTime => true;
 
         internal override bool UseTwoPhaseCompilation => true;
+
+        public DesignTimeCodeGenerationTest()
+        {
+            GenerateBaselines = true;
+        }
         
         [Fact]
         public void ChildComponent_WithParameters()
@@ -250,6 +255,33 @@ namespace Test
     void OnClick(UIMouseEventArgs e) {
     }
 }");
+
+            // Assert
+            AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
+            AssertCSharpDocumentMatchesBaseline(generated.CodeDocument);
+            CompileToAssembly(generated);
+        }
+
+        [Fact] // https://github.com/aspnet/Blazor/issues/597
+        public void Regression_597()
+        {
+            // Arrange
+                        AdditionalSyntaxTrees.Add(CSharpSyntaxTree.ParseText(@"
+using Microsoft.AspNetCore.Blazor.Components;
+
+namespace Test
+{
+    public class Counter : BlazorComponent
+    {
+        public int Count { get; set; }
+    }
+}
+"));
+
+            // Act
+            var generated = CompileToCSharp(@"
+<Counter bind-x=""y"" />
+");
 
             // Assert
             AssertDocumentNodeMatchesBaseline(generated.CodeDocument);
